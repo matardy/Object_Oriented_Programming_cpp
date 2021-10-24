@@ -1,0 +1,14 @@
+.vscode
+.exe
+.out
+.app
+.DS_Store
+.AppleDouble
+.LSOverride
+.slo
+.lo
+.o
+.obj
+.uef
+bin
+
