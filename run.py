@@ -37,7 +37,7 @@ def run():
     
    
     os.system("g++ {} -o bin/{}".format(route_cpp,route_exe))
-    print("file compiled!")
+    print("Compiled successfully")
     print("--------------------------------------------------")
     print('\n')
 
