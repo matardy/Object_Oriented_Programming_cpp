@@ -21,12 +21,25 @@ class Persona {
             cout << "Destructor!" <<endl; 
 
         }
-        void setNombre(string nombre){
-            this->nombre = nombre; 
-        }
+
+        /* Forma normal de hacerlo
         void setEdad(int edad){
             this->edad = edad; 
         }
+        */
+
+       // Si yo quisiera concatenar los metodos. Es decir que me devuelvan el objeto.
+        //Devuelve un puntero del tipo Persona. 
+        Persona &setNombre(string nombre){
+            this->nombre = nombre; 
+            return *this; 
+        }
+
+        Persona &setEdad(int edad){
+            this->edad = edad; 
+            return *this; 
+        }
+        
 
 
         void saludar(){
@@ -43,10 +56,9 @@ int main(){
     delete p; 
     cout << "Ingrese la nueva edad: " <<endl; 
     cin>>edad; 
-    p->setEdad(edad);
     cout<< "Ingrese el nuevo nombre: " <<endl; 
     cin>>nombre; 
-    p->setNombre(nombre);
+    p->setEdad(edad).setNombre(nombre);
     cout<< "Los nuevos datos de Diana son: " <<endl; 
 
     p->saludar(); 
