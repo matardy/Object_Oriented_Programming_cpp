@@ -1,81 +1,69 @@
-#include<iostream>
-#include<string>
-using namespace std; 
+#include <iostream>
+#include <string>
 
+using namespace std;
 
-
-class Persona {
-    private: 
-        string nombre; // De esta forma los datos son privados y no puedo editarlos
-        int edad; 
-    public: 
-        static int numero_personas; 
-        
-        /* Inicializacion inline
-        Persona(string n, int e): nombre(n),  edad(e) {} // De esta forma tambien puedo crear constructuores
-        */
-
-       Persona(string nombre, int edad);
-
-        ~Persona(){
-            cout << "Destructor!" <<endl; 
-
+class Animal {
+    protected: // Para compartir entre clases heredar
+        static int numeroAnimales;
+        string alimento;
+    public:
+        Animal();
+        ~Animal();
+        static int obtenerNumeroAnimales();
+        string obtenerAlimento() {
+            return alimento;
         }
-
-        /* Forma normal de hacerlo
-        void setEdad(int edad){
-            this->edad = edad; 
+        void comer() {
+            cout << "Este animal está comiendo " << alimento << "... ñom ñom" << endl;
         }
-        */
-
-       // Si yo quisiera concatenar los metodos. Es decir que me devuelvan el objeto.
-        //Devuelve un puntero del tipo Persona. 
-        Persona &setNombre(string nombre){
-            this->nombre = nombre; 
-            return *this; 
-        }
-
-        Persona &setEdad(int edad){
-            this->edad = edad; 
-            return *this; 
-        }
-
-        void saludar();
 };
 
+int Animal::numeroAnimales = 0;
 
-//Optimizar memoria
-int Persona::numero_personas = 0; // El compilador puede acceder a una atributado si le especificas la clase
-// Defino como funciona desde fuera
-void Persona::saludar(){
-    cout << nombre << ": Saludando"<<endl; 
-    cout << edad << ": Edad" <<endl;
+Animal::Animal() {
+    cout << "Creando nuevo animal..." << endl;
+    numeroAnimales += 1;
 }
 
-Persona::Persona(string nombre, int edad){
-    this->nombre = nombre; 
-    this->edad = edad; 
-    numero_personas += 1; 
+Animal::~Animal() {
+    cout << "Borrando animal..." << endl;
+    numeroAnimales -= 1;
 }
 
-int main(){
-    Persona *p = new Persona("Diana", 25); 
+int Animal::obtenerNumeroAnimales() {
+    return numeroAnimales;
+}
 
-    cout << "Numero de personas: " <<  Persona::numero_personas <<endl;   //De esta forma accedo a variables estaticas
+//Forma de heredar en C++
+class Herviboro : public Animal {
+    public:
+        Herviboro() : Animal() {
+            this->alimento = "plantas";
+        }
+        void pastar() {
+            cout << "Este animal está pastando..." << endl;
+        }
+};
 
-    int edad; 
-    string nombre; 
-    p->saludar(); 
-    delete p; 
-    cout << "Ingrese la nueva edad: " <<endl; 
-    cin>>edad; 
-    cout<< "Ingrese el nuevo nombre: " <<endl; 
-    cin>>nombre; 
-    p->setEdad(edad).setNombre(nombre); //Concateno metodos
-    cout<< "Los nuevos datos de Diana son: " <<endl; 
+class Carnivoro : public Animal {
+    public:
+        Carnivoro() : Animal() {
+            this->alimento = "carne";
+        }
+        void cazar() {
+            cout << "Este animal está cazando..." << endl;
+        }
+};
 
-    p->saludar(); 
-
-
-    return 0; 
+int main() {
+    Animal *a = new Animal();
+    Herviboro *h = new Herviboro();
+    Carnivoro *c = new Carnivoro();
+    cout << "Numero de animales " << Animal::obtenerNumeroAnimales() << endl;
+    a->comer();    
+    h->pastar();
+    c->cazar();
+    delete a;
+    cout << "Numero de animales " << Animal::obtenerNumeroAnimales() << endl;    
 }
